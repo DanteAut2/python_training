@@ -9,7 +9,7 @@ class TestAddContact(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
-    
+
     def logout(self, driver):
         driver.find_element_by_link_text("Logout").click()
 
@@ -31,6 +31,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("address2").clear()
         wd.find_element_by_name("address2").send_keys(contact.second_address)
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.return_to_main_page(wd)
 
     def login(self, wd, login, password):
         wd.find_element_by_name("user").click()
@@ -39,6 +40,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("pass").clear()
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_id("LoginForm").submit()
+        self.open_home_page(wd)
 
     def open_home_page(self, wd):
         wd.get("http://localhost/addressbook/index.php")
@@ -58,11 +60,9 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, login="admin", password="secret")
         self.create_contact(wd, Contact(first_name="sdfdsfg", home_number="fdsfgsdfg", first_mail="sdfgsdffg",
                                          second_address="fgdsfgsdfg"))
-        self.return_to_main_page(wd)
         self.logout(wd)
 
 if __name__ == "__main__":
