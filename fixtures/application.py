@@ -3,7 +3,9 @@ from fixtures.session import SessionHelper
 from fixtures.group import GroupHelper
 from fixtures.contact import ContactHelper
 
+
 class Application:
+
 
     def __init__(self):
         self.wd = WebDriver()
