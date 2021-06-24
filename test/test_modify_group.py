@@ -6,5 +6,5 @@ def test_add_group(app):
     app.group.open_groups_page()
     app.group.chose_first_group()
     app.group.click_edit_group()
-    app.group.modify(Group(name="sdfgdsfg", header="gsdfgsdgf", footer="gdfhgdfghd"))
+    app.group.modify_first_group(Group(name="sdfgdsfg", footer="gdfhgdfghd"))
     app.session.logout()
