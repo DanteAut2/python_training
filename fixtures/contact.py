@@ -1,5 +1,6 @@
 class ContactHelper:
 
+
     def __init__(self, app):
         self.app = app
 
@@ -32,6 +33,7 @@ class ContactHelper:
 
     def modify_first_contact(self, contact):
         wd = self.app.wd
+        self.chose_first_contact()
         self.fill_contact_form(contact)
         wd.find_element_by_name("update").click()
         self.return_to_main_page()
