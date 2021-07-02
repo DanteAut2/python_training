@@ -47,7 +47,7 @@ class ContactHelper:
         wd = self.app.wd
         self.open_main_page()
         contacts = []
-        for element in wd.find_elements_by_xpath(".//*[@id='maintable']/tbody/tr"):
+        for element in wd.find_elements_by_name("entry"):
             firstName = element.find_elements_by_tag_name("td")[1].text
             lastName = element.find_elements_by_tag_name("td")[2].text
             id = element.find_element_by_name("selected[]").get_attribute("value")
@@ -75,6 +75,7 @@ class ContactHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
+        wd.find_element_by_css_selector("div.msgbox")
         self.open_main_page()
 
 
