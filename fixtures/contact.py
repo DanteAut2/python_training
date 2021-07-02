@@ -1,3 +1,6 @@
+from model.contact import Contact
+
+
 class ContactHelper:
 
 
@@ -29,6 +32,7 @@ class ContactHelper:
         self.change_field_value("home", contact.home_number)
         self.change_field_value("email", contact.first_mail)
         self.change_field_value("address2", contact.second_address)
+        self.change_field_value("lastname", contact.last_name)
 
 
     def modify_first_contact(self, contact):
@@ -37,6 +41,18 @@ class ContactHelper:
         self.fill_contact_form(contact)
         wd.find_element_by_name("update").click()
         self.return_to_main_page()
+
+
+    def get_contacts_list(self):
+        wd = self.app.wd
+        self.open_main_page()
+        contacts = []
+        for element in wd.find_elements_by_xpath(".//*[@id='maintable']/tbody/tr"):
+            firstName = element.find_elements_by_tag_name("td")[1].text
+            lastName = element.find_elements_by_tag_name("td")[2].text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Contact(first_name=firstName, last_name=lastName, id=id))
+        return contacts
 
 
     def change_field_value(self, field_name, text):

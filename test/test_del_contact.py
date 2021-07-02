@@ -5,4 +5,7 @@ def test_delete_first_contact(app):
     if app.contact.count() == 0:
         app.contact.create(Contact(first_name="sdfdsfg", first_mail="sdfgsdffg",
                                            second_address="fgdsfgsdfg"))
+    old_contacts = app.contact.get_contacts_list()
     app.contact.delete_first_contact()
+    new_contacts = app.contact.get_contacts_list()
+    assert len(old_contacts) - 1 == len(new_contacts)
