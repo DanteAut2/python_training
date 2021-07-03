@@ -35,14 +35,21 @@ class ContactHelper:
         self.change_field_value("address2", contact.second_address)
         self.change_field_value("lastname", contact.last_name)
 
+    def modify_first_contact(self):
+        self.modify_contact_by_index(0)
 
-    def modify_first_contact(self, contact):
+    def modify_contact_by_index(self, index, contact):
         wd = self.app.wd
-        self.chose_first_contact()
+        self.update_random_contact(index)
         self.fill_contact_form(contact)
         wd.find_element_by_name("update").click()
         self.return_to_main_page()
         self.contact_cache = None
+
+
+    def update_random_contact(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("update")[index].click()
 
 
     contact_cache = None
@@ -75,15 +82,24 @@ class ContactHelper:
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
 
 
-    def delete_first_contact(self):
+    def chose_random_checkbox(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.open_main_page()
-        wd.find_element_by_name("selected[]").click()
+        self.chose_random_checkbox(index)
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
         wd.find_element_by_css_selector("div.msgbox")
         self.open_main_page()
         self.contact_cache = None
+
+
+    def delete_first_contact(self):
+        self.delete_contact_by_index(0)
 
 
     def count(self):
