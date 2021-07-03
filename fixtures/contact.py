@@ -25,6 +25,7 @@ class ContactHelper:
         self.fill_contact_form(contact)
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.return_to_main_page()
+        self.contact_cache = None
 
 
     def fill_contact_form(self, contact):
@@ -41,18 +42,23 @@ class ContactHelper:
         self.fill_contact_form(contact)
         wd.find_element_by_name("update").click()
         self.return_to_main_page()
+        self.contact_cache = None
+
+
+    contact_cache = None
 
 
     def get_contacts_list(self):
-        wd = self.app.wd
-        self.open_main_page()
-        contacts = []
-        for element in wd.find_elements_by_name("entry"):
-            firstName = element.find_elements_by_tag_name("td")[1].text
-            lastName = element.find_elements_by_tag_name("td")[2].text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Contact(first_name=firstName, last_name=lastName, id=id))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_main_page()
+            self.contact_cache = []
+            for element in wd.find_elements_by_name("entry"):
+                firstName = element.find_elements_by_tag_name("td")[1].text
+                lastName = element.find_elements_by_tag_name("td")[2].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(first_name=firstName, last_name=lastName, id=id))
+        return list(self.contact_cache)
 
 
     def change_field_value(self, field_name, text):
@@ -77,6 +83,7 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         wd.find_element_by_css_selector("div.msgbox")
         self.open_main_page()
+        self.contact_cache = None
 
 
     def count(self):
