@@ -29,14 +29,16 @@ class ContactHelper:
 
 
     def fill_contact_form(self, contact):
+        self.change_field_value("lastname", contact.last_name)
         self.change_field_value("firstname", contact.first_name)
         self.change_field_value("home", contact.home_number)
         self.change_field_value("email", contact.first_mail)
         self.change_field_value("address2", contact.second_address)
-        self.change_field_value("lastname", contact.last_name)
+
 
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
+
 
     def modify_contact_by_index(self, index, contact):
         wd = self.app.wd
@@ -49,7 +51,8 @@ class ContactHelper:
 
     def update_random_contact(self, index):
         wd = self.app.wd
-        wd.find_elements_by_name("update")[index].click()
+        update = wd.find_elements_by_xpath("//img[@alt='Edit']")
+        update[index].click()
 
 
     contact_cache = None
@@ -61,10 +64,10 @@ class ContactHelper:
             self.open_main_page()
             self.contact_cache = []
             for element in wd.find_elements_by_name("entry"):
-                firstName = element.find_elements_by_tag_name("td")[1].text
-                lastName = element.find_elements_by_tag_name("td")[2].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(first_name=firstName, last_name=lastName, id=id))
+                lastName = element.find_elements_by_tag_name("td")[1].text
+                firstName = element.find_elements_by_tag_name("td")[2].text
+                self.contact_cache.append(Contact(id=id, last_name=lastName, first_name=firstName))
         return list(self.contact_cache)
 
 
