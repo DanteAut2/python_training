@@ -26,7 +26,7 @@ class Contact:
 
 
     def __repr__(self):
-        return "%s:%s:%s" % (self.id, self.lastname, self.firstname)
+        return "%s:%s;%s" % (self.id, self.lastname, self.firstname)
 
 
     def __eq__(self, other):
