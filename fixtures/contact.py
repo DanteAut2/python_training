@@ -152,6 +152,25 @@ class ContactHelper:
         self.contact_cache = None
 
 
+    def get_contact_list(self):
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_main_page()
+            self.contact_cache = []
+            for row in wd.find_elements_by_name("entry"):
+                cells = row.find_elements_by_tag_name("td")
+                firstname = cells[2].text
+                lastname = cells[1].text
+                all_emails = cells[4].text
+                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+                all_phones = cells[5].text
+                address = cells[3].text
+                self.contact_cache.append(Contact(id=id, firstname=firstname, lastname=lastname,
+                                                  all_emails_from_home_page=all_emails,
+                                                  all_phones_from_home_page=all_phones, address=address))
+        return list(self.contact_cache)
+
+
     def select_edit_contact_by_id(self, id):
         wd = self.app.wd
         self.open_main_page()

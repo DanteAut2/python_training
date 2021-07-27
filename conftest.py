@@ -51,6 +51,8 @@ def stop(request):
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="firefox")
     parser.addoption("--target", action="store", default="target.json")
+    parser.addoption("--check_ui", action="store_true", default="target.json")
+
 
 
 def pytest_generate_tests(metafunc):
@@ -61,6 +63,11 @@ def pytest_generate_tests(metafunc):
         elif fixture.startswith("json_"):
             testdata = load_from_json(fixture[5:])
             metafunc.parametrize(fixture, testdata, ids=[str(y) for y in testdata])
+
+
+@pytest.fixture
+def check_ui(request):
+    return request.config.getoption("--check_ui")
 
 
 def load_from_module(module):
