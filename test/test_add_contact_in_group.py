@@ -1,41 +1,43 @@
 from model.contact import Contact
 from model.group import Group
-from fixtures.orm import ORMFixture
 import random
+from fixtures.orm import ORMFixture
 
 
-db = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
+orm = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
 
-def test_add_contact_into_group(app):
-    old_contacts = db.get_contact_list()
-    if len(old_contacts) == 0:
-        app.contact_helper.create_new_contact(Contact(firstname="firstname_1"))
-    old_groups = db.get_group_list()
-    if len(old_groups) == 0:
-        app.group_helper.create_group(Group(name="name_1", header="header_1", footer="footer_1"))
-    group_list = db.get_group_list()
-    contact_list = db.get_contact_list()
+def check_empty_filling(app, db):
+    if len(db.get_contact_list()) == 0:
+        app.contact.create(Contact(firstname="test"))
+    if len(db.get_group_list()) == 0:
+        app.group.create(Group(name="test"))
 
 
-    def group_with_not_all_contacts(group_list, contact_list):
-        for group in group_list:
-            contact_in_group = db.get_contacts_in_group(Group(id=group.id))
-            if len(contact_in_group) < len(contact_list):
-                return group
-            else:
-                app.contact_helper.create_new_contact(Contact(firstname="test_contact"))
-                return group
+def test_add_contact_to_group(app, db):
+    check_empty_filling(app, db)
+    contacts = db.get_contact_list()
+    contact = random.choice(contacts)
+    groups = db.get_group_list()
+    random_group_number = random.randint(1, len(groups))
+    random_group_id = groups[random_group_number-1].id
+    contacts_before_add = len(orm.get_contacts_in_group(Group(id='%s' % random_group_id)))
+    app.contact.add_contact_to_group_by_id(contact.id, random_group_number)
+    contacts_after_add = len(orm.get_contacts_in_group(Group(id='%s' % random_group_id)))
+    assert contacts_before_add + 1 == contacts_after_add
 
 
-    group = group_with_not_all_contacts(group_list, contact_list)
-    old_contacts_in_group = db.get_contacts_in_group(Group(id=group.id))
-    old_contacts_not_in_groups = db.get_contacts_not_in_group(Group(id=group.id))
-    contact = random.choice(old_contacts_not_in_groups)
-    app.contact_helper.add_contact_into_group(id=contact.id, group_id=group.id)
-    new_contacts_not_in_groups = db.get_contacts_not_in_group(Group(id=group.id))
-    new_contacts_in_group = db.get_contacts_in_group(Group(id=group.id))
-    assert len(old_contacts_not_in_groups) - 1 == len(new_contacts_not_in_groups)
-    assert len(old_contacts_in_group) + 1 == len(new_contacts_in_group)
-    old_contacts_in_group.append(contact)
-    assert sorted(old_contacts_in_group, key=Contact.id_or_max) == sorted(new_contacts_in_group, key=Contact.id_or_max)
+def test_delete_contact_from_group(app, db):
+    global orm
+    check_empty_filling(app, db)
+    groups = db.get_group_list()
+    random_group_number = random.randint(1, len(groups))
+    random_group_id = groups[random_group_number - 1].id
+    contacts_before_delete = len(orm.get_contacts_in_group(Group(id='%s' % random_group_id)))
+    if contacts_before_delete == 0:
+        contacts = db.get_contact_list()
+        contact = random.choice(contacts)
+        app.contact.add_contact_to_group_by_id(contact.id, random_group_number=random_group_number)
+        app.contact.delete_contact_from_group_by_id(group_id=random_group_id, orm=orm)
+        contacts_after_delete = len(orm.get_contacts_in_group(Group(id='%s' % random_group_id)))
+        assert contacts_before_delete - 1 == contacts_after_delete
