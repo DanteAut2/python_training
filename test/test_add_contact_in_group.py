@@ -14,9 +14,9 @@ def test_add_contact_into_group(app):
     old_groups = db.get_group_list()
     if len(old_groups) == 0:
         app.group_helper.create_group(Group(name="name_1", header="header_1", footer="footer_1"))
-
     group_list = db.get_group_list()
     contact_list = db.get_contact_list()
+
 
     def group_with_not_all_contacts(group_list, contact_list):
         for group in group_list:
@@ -26,6 +26,7 @@ def test_add_contact_into_group(app):
             else:
                 app.contact_helper.create_new_contact(Contact(firstname="test_contact"))
                 return group
+
 
     group = group_with_not_all_contacts(group_list, contact_list)
     old_contacts_in_group = db.get_contacts_in_group(Group(id=group.id))
