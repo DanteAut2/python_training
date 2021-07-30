@@ -56,3 +56,34 @@ class DbFixture:
                 (group_id, dummy) = row
                 list.append(Group(id=str(group_id)))
         return list
+
+
+    def get_contacts_not_in_group(self):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select a.id, a.firstname, a.lastname, a.address, a.home, a.mobile, a.work, a.email, a.email2, a.email3, a.phone2 from addressbook a left join address_in_groups ag on ag.id=a.id where ag.id is null")
+            for row in cursor:
+                (id, firstname, lastname, address, home, mobile, work, email, email2, email3, phone2) = row
+                list.append(Contact(id=str(id), firstname=firstname, lastname=lastname, address=address, homephone=home,
+                                    mobilephone=mobile, workphone=work, email=email, email2=email2, email3=email3, secondaryphone=phone2))
+        finally:
+            cursor.close()
+        return list
+
+
+    def get_contacts_in_group(self):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select distinct (a.id), a.firstname, a.lastname, a.address, a.home, a.mobile, a.work, a.email, a.email2, a.email3, a.phone2 from addressbook a inner join address_in_groups ag on ag.id=a.id")
+            for row in cursor:
+                (id, firstname, lastname, address, home, mobile, work, email, email2, email3, phone2) = row
+                list.append(Contact(id=str(id), firstname=firstname, lastname=lastname, address=address, homephone=home,
+                                    mobilephone=mobile, workphone=work, email=email, email2=email2, email3=email3,
+                                    secondaryphone=phone2))
+        finally:
+            cursor.close()
+        return list
+
+

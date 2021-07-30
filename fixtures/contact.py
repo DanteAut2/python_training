@@ -1,5 +1,6 @@
 from model.contact import Contact
 from model.group import Group
+from selenium.webdriver.support.ui import Select
 import re
 import time
 import random
@@ -241,3 +242,33 @@ class ContactHelper:
                  wd.find_element_by_xpath("//*[text() = 'Users removed.']")
             except Exception:
                  time.sleep(0.1)
+
+
+    def add_contact_in_group(self, contact_id, group_id):
+        wd = self.app.wd
+        self.open_contact_list_not_in_group()
+        self.select_contact_by_id(contact_id)
+        wd.find_element_by_xpath("(//option[@value='%s'])[2]" % group_id).click()
+        wd.find_element_by_name("add").click()
+        self.contact_cache = None
+
+
+    def open_contact_list_not_in_group(self):
+        wd = self.app.wd
+        self.open_main_page()
+        Select(wd.find_element_by_name("group")).select_by_visible_text("[none]")
+
+
+
+    def delete_contact_from_group(self, contact_id, group_id):
+        wd = self.app.wd
+        self.open_contact_list_in_group_by_id(group_id)
+        self.select_contact_by_id(contact_id)
+        wd.find_element_by_name("remove").click()
+
+
+
+    def open_contact_list_in_group_by_id(self, id):
+        wd = self.app.wd
+        self.open_main_page()
+        Select(wd.find_element_by_xpath('//*[@id="right"]/select')).select_by_value(id)
