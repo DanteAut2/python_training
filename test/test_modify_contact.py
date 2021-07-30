@@ -7,9 +7,11 @@ def test_modify_contact(app, db, check_ui):
         app.contact.create(Contact(firstname="sdfdsfg", first_mail="sdfgsdffg", second_address="fgdsfgsdfg"))
     old_contacts = db.get_contact_list()
     contact = random.choice(old_contacts)
+    old_contacts.remove(contact)
     new_contact = Contact(firstname="sdfdsfg", first_mail="sdfgsdffg", second_address="fgdsfgsdfg")
     app.contact.modify_contact_by_id(contact.id, new_contact)
     new_contacts = db.get_contact_list()
+    old_contacts.append(contact)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
     if check_ui:
         assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
