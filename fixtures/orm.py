@@ -61,7 +61,7 @@ class ORMFixture:
             return Contact(id=str(contact.id), firstname=contact.firstname, lastname=contact.lastname,
                            email=contact.email, address=contact.address, homephone=contact.homephone,
                            mobilephone=contact.mobilephone, workphone=contact.workphone, email2=contact.email2,
-                           email3=contact.email3, phone2=contact.fax)
+                           email3=contact.email3, phone2=contact.phone2)
         return list(map(convert, contacts))
 
 
