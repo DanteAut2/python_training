@@ -244,12 +244,13 @@ class ContactHelper:
                  time.sleep(0.1)
 
 
-    def add_contact_in_group(self, contact_id, group_id):
+    def add_contact_in_group(self, contact, group):
         wd = self.app.wd
-        self.open_contact_list_not_in_group()
-        self.select_contact_by_id(contact_id)
-        wd.find_element_by_xpath("(//option[@value='%s'])[2]" % group_id).click()
-        wd.find_element_by_name("add").click()
+        self.open_main_page()
+        self.select_contact_by_id(contact)
+        wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % group).click()
+        wd.find_element_by_xpath("//input[@name='add']").click()
+        self.open_main_page()
         self.contact_cache = None
 
 
