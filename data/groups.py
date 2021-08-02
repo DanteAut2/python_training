@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
 from model.group import Group
 
-
-constant = [
-    Group(name="name1", header="header1", footer="footer1"),
-    Group(name="name2", header="header2", footer="footer2")
+testdata = [
+    Group(gr_name="name1", gr_header="header1", gr_footer="footer1"),
+    Group(gr_name="name2", gr_header="header2", gr_footer="footer2")
 ]
-
-
