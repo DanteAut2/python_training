@@ -1,6 +1,5 @@
 from model.contact import Contact
 import re
-import time
 
 class ContactHelper:
     def __init__(self, app):
@@ -84,7 +83,6 @@ class ContactHelper:
     def edit_contact_by_index(self, index, contact):
         wd = self.app.wd
         self.open_contact_page()
-        #wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         self.open_contact_to_edit_by_index(index)
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -152,7 +150,6 @@ class ContactHelper:
     def edit_contact_by_id(self, id, contact_to_edit):
         wd = self.app.wd
         self.open_contact_page()
-        #wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         self.open_contact_to_edit_by_id(int(id))
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -334,3 +331,14 @@ class ContactHelper:
         wd.find_element_by_css_selector("div.msgbox")
         self.open_contact_page()
         self.contacts_cache = None
+
+
+    def checker_that_old_contacts_not_zero(self, old_contacts):
+        if len(old_contacts) == 0:
+            self.contact.add_new_contact(
+                Contact(firstname="Testik", middlename="Midtest", lastname="Lasttest", nickname="Nickname test",
+                        title="Mrs", company="Test Company", street="5th Avenue", homephone="15",
+                        mobilephone="111999333", workphone="12123342", fax="2345645", email="test@test.com",
+                        birthday_day="11", birthday_month="July", birthday_year="1991", anniversary_day="8",
+                        anniversary_month="November", anniversary_year="1991", address2="Sec address", phone2="163434",
+                        note="testtesttest note"))

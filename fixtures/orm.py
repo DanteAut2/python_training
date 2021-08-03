@@ -2,8 +2,8 @@ from pony.orm import *
 from datetime import datetime
 from model.group import Group
 from model.contact import Contact
-#from pymysql.converters import decoders
-
+import random
+from fixtures import contact
 
 class ORMFixture:
     db = Database()
@@ -89,7 +89,19 @@ class ORMFixture:
     def get_groups_with_contacts(self):
         groups_with_contacts = []
         group_id = self.db.select("group_id FROM address_in_groups")
-        #print(group_id)
         for i in group_id:
             groups_with_contacts.append(Group(id=str(i)))
         return groups_with_contacts
+
+    @db_session
+    def checker_that_we_have_groups_with_contacts(self, app):
+        if len(self.get_groups_with_contacts()) == 0:
+            old_contacts = self.get_contact_list()
+            old_groups = self.get_group_list()
+            app.contact.checker_that_old_contacts_not_zero(old_contacts)
+            app.group.checker_that_old_groups_not_zero(old_groups)
+            available_groups = app.group.get_available_groups(old_groups, old_contacts, self)
+            group = random.choice(available_groups)
+            contacts_not_in_group = self.get_contacts_not_in_group(group)
+            contact = random.choice(contacts_not_in_group)
+            app.contact.add_contact_to_group(contact.id, group)
