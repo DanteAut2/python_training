@@ -22,12 +22,11 @@ for o, a in opts:
         f = a
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    symbols = string.ascii_letters + string.digits
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-testdata = [Group(gr_name="", gr_header="", gr_footer="")] + [
-    Group(gr_name=random_string("name", 5), gr_header=random_string("header", 10), gr_footer=random_string("footer", 10))
+testdata = [Group(gr_name=random_string("name", 5), gr_header=random_string("header", 10), gr_footer=random_string("footer", 10))
     for i in range(n)
 ]
 

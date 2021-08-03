@@ -1,1 +1,9 @@
-[{"py/object": "model.group.Group", "name": "", "header": "", "footer": "", "id": null}, {"py/object": "model.group.Group", "name": "namedCAd", "header": "headerSE7vhVW5zEUjt9Q", "footer": "footerPk9cpRGz", "id": null}, {"py/object": "model.group.Group", "name": "nameuU", "header": "header9GpJVxq", "footer": "footert0lAO4acQ30i", "id": null}, {"py/object": "model.group.Group", "name": "nameH", "header": "headerdkLlJMtwvjtcF", "footer": "footer4KGOVKwKt6ZK5U", "id": null}, {"py/object": "model.group.Group", "name": "namezRss", "header": "headerr8", "footer": "footer", "id": null}, {"py/object": "model.group.Group", "name": "name4Pp", "header": "headerfwYbrmrWr5KL1", "footer": "footerx", "id": null}, {"py/object": "model.group.Group", "name": "namepADe", "header": "header", "footer": "footerXit", "id": null}, {"py/object": "model.group.Group", "name": "namelMC7B7Lw", "header": "headerxdi", "footer": "footer", "id": null}, {"py/object": "model.group.Group", "name": "name4WM", "header": "headerkAfMA33F6hH0OhZk", "footer": "footerj1Iewn", "id": null}, {"py/object": "model.group.Group", "name": "namebWHz6Ka", "header": "headerdLtNLjV9L", "footer": "footerPuC", "id": null}, {"py/object": "model.group.Group", "name": "namejT", "header": "headerv6GK2zd7rRHMj", "footer": "footer3Kf9qrp8keahcZDqcui", "id": null}]
+[
+  {
+    "py/object": "model.group.Group",
+    "gr_name": "namez",
+    "gr_header": "headeroA75rWbA",
+    "gr_footer": "footerPTkghlo",
+    "id": null
+  }
+]

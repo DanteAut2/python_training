@@ -23,7 +23,7 @@ for o, a in opts:
 
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    symbols = string.ascii_letters + string.digits
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
@@ -37,14 +37,7 @@ def random_string_emails(maxlen):
     return "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-testdata = [Contact(firstname="", middlename="", lastname="", nickname="",
-                    title="", company="", street="",
-                    birthday_day="", birthday_month="", birthday_year="", anniversary_day="",
-                    anniversary_month="", anniversary_year="",
-                    homephone="", mobilephone="", workphone="", fax="", email="",
-                    address2="", phone2="",
-                    note="")] + [
-    Contact(firstname=random_string("fname", 10),  middlename=random_string("mname", 10), lastname=random_string("lname", 10),
+testdata = [Contact(firstname=random_string("fname", 10),  middlename=random_string("mname", 10), lastname=random_string("lname", 10),
           nickname=random_string("nick", 10), title=random_string("t", 5), company=random_string("comp", 10),
           street=random_string("address", 10), homephone=random_string_phones(10), mobilephone=random_string_phones(10),
           workphone=random_string_phones(10), fax=random_string_phones(10), email=random_string_emails(10)+"@test.com",
