@@ -110,3 +110,14 @@ class GroupHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(gr_name=text, id=id))
         return list(self.group_cache)
+
+    def get_available_groups(self, old_groups, old_contacts, dbORM):
+        available_groups = []
+        for i in old_groups:
+            number_of_contacts_in_group = len(dbORM.get_contacts_in_groups(i))
+            if number_of_contacts_in_group != len(old_contacts):
+                available_groups.append(i)
+        if len(available_groups) == 0:
+            self.create(Group(gr_name="Test new available group", gr_header="test header", gr_footer="test footer"))
+            available_groups = dbORM.get_group_list()
+        return available_groups

@@ -14,15 +14,11 @@ def test_add_contact_in_group(app, dbORM):
                                             note="testtesttest note"))
     if len(old_groups) == 0:
         app.group.create(Group(gr_name="Test group", gr_header="test header", gr_footer="test footer"))
-    available_groups = []
-    for i in old_groups:
-        number_of_contacts_in_group = len(dbORM.get_contacts_in_groups(i))
-        if number_of_contacts_in_group != len(old_contacts):
-            available_groups.append(i)
-    if len(available_groups) == 0:
-        new_available_group = app.group.create(Group(gr_name="Test group new", gr_header="test header", gr_footer="test footer"))
-        available_groups.append(new_available_group)
+    available_groups = app.group.get_available_groups(old_groups, old_contacts, dbORM)
     group = random.choice(available_groups)
     contacts_not_in_group = dbORM.get_contacts_not_in_group(group)
     contact = random.choice(contacts_not_in_group)
     app.contact.add_contact_to_group(contact.id, group)
+    new_contacts_not_in_group = dbORM.get_contacts_not_in_group(group)
+    contacts_not_in_group.remove(contact)
+    assert contacts_not_in_group == new_contacts_not_in_group
