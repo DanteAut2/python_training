@@ -27,3 +27,6 @@ def test_delete_contact_from_group(app, dbORM):
     contacts_in_group = dbORM.get_contacts_in_groups(group)
     contact = random.choice(contacts_in_group)
     app.contact.delete_contact_from_group(contact.id, group)
+    new_contacts_with_groups = dbORM.get_contacts_in_groups(group)
+    contacts_in_group.remove(contact)
+    assert contacts_in_group == new_contacts_with_groups
