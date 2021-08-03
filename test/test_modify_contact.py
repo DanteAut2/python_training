@@ -4,12 +4,8 @@ import random
 
 
 def test_edit_some_contact(app, db, check_ui):
-    if len(db.get_contacts_list()) == 0:
-        app.contact.add_new_contact(Contact(firstname="Testik", middlename="Midtest", lastname="Lasttest", nickname="Nickname test",
-                                            title="Mrs", company="Test Company", street="5th Avenue", homephone="15", mobilephone="111999333", workphone="12123342", fax="2345645", email="test@test.com",
-                                            birthday_day="11", birthday_month="July", birthday_year="1991", anniversary_day="8", anniversary_month="November", anniversary_year="1991", address2="Sec address", phone2="163434",
-                                            note="testtesttest note"))
     old_contacts = db.get_contacts_list()
+    app.contact.checker_that_old_contacts_not_zero(old_contacts)
     contact = random.choice(old_contacts)
     index = old_contacts.index(contact)
     contact_to_edit = Contact(firstname="Test edit", middlename="Midtest edit", lastname="Lasttest edit", nickname="Nickname test edit", title="Mrs edit", company="Test Company edit", street="5th Avenue edit",

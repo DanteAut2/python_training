@@ -3,9 +3,8 @@ import random
 
 
 def test_edit_some_group_name(app, db, check_ui):
-    if len(db.get_group_list()) == 0:
-        app.group.create(Group(gr_name="Test group", gr_header="test header", gr_footer="test footer"))
     old_groups = db.get_group_list()
+    app.group.checker_that_old_groups_not_zero(old_groups)
     group = random.choice(old_groups)
     index = old_groups.index(group)
     group_edited = Group(gr_name="Name changed")
