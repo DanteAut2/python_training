@@ -124,4 +124,4 @@ class GroupHelper:
 
     def checker_that_old_groups_not_zero(self, old_groups):
         if len(old_groups) == 0:
-            self.group.create(Group(gr_name="Test group", gr_header="test header", gr_footer="test footer"))
+            self.create(Group(gr_name="Test group", gr_header="test header", gr_footer="test footer"))

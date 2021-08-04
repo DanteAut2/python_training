@@ -335,7 +335,7 @@ class ContactHelper:
 
     def checker_that_old_contacts_not_zero(self, old_contacts):
         if len(old_contacts) == 0:
-            self.contact.add_new_contact(
+            self.add_new_contact(
                 Contact(firstname="Testik", middlename="Midtest", lastname="Lasttest", nickname="Nickname test",
                         title="Mrs", company="Test Company", street="5th Avenue", homephone="15",
                         mobilephone="111999333", workphone="12123342", fax="2345645", email="test@test.com",
