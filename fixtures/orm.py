@@ -3,7 +3,6 @@ from datetime import datetime
 from model.group import Group
 from model.contact import Contact
 import random
-from fixtures import contact
 
 class ORMFixture:
     db = Database()
@@ -93,7 +92,6 @@ class ORMFixture:
             groups_with_contacts.append(Group(id=str(i)))
         return groups_with_contacts
 
-    @db_session
     def checker_that_we_have_groups_with_contacts(self, app):
         if len(self.get_groups_with_contacts()) == 0:
             old_contacts = self.get_contact_list()
