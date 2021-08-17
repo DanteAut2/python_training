@@ -1,0 +1,11 @@
+[ {
+  "uid" : "a7a4c0006f4ac8b2",
+  "name" : "test_add_group[None:namez:headeroA75rWbA:footerPTkghlo]",
+  "time" : {
+    "start" : 1629222015337,
+    "stop" : 1629222016257,
+    "duration" : 920
+  },
+  "status" : "passed",
+  "severity" : "normal"
+} ]
